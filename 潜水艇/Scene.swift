@@ -9,8 +9,9 @@
 import SpriteKit
 import ARKit
 
-let pipeCategory:UInt32 = 0x1<<1
-let birdCategory:UInt32 = 0x1<<0
+let pipeCategory:UInt32 = 1
+let birdCategory:UInt32 = 0
+let scoreCategory:UInt32 = 2
 
 enum GameStatus {
     case initialize  //初始化
@@ -21,15 +22,33 @@ enum GameStatus {
 class Scene: SKScene,SKPhysicsContactDelegate {
     
     var positionCallBack:((_ point:CGPoint)->())?
-    var isGameOver:Bool = false
+    var score:Int = 0
     var image:SKSpriteNode!
     //游戏状态的变量
     var gameStatus:GameStatus = .initialize
     //游戏结束标签
     lazy var gameOverLabel:SKLabelNode = {
-        let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = "GameOver"
+        let label = SKLabelNode(fontNamed: "Zapfino")
+        label.text = "游戏结束"
         return label
+    }()
+    //计分标签
+    lazy var scoreLabel:SKLabelNode = {
+        let scoreLabel = SKLabelNode(fontNamed: "AppleGothic")
+        scoreLabel.text = "0"
+        scoreLabel.fontColor = .red
+        return scoreLabel
+    }()
+    
+    lazy var scoreNode:SKSpriteNode = {
+        let scoreNode = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: 10))
+        scoreNode.physicsBody = SKPhysicsBody(rectangleOf: scoreNode.size)
+        scoreNode.physicsBody?.affectedByGravity = false
+        scoreNode.physicsBody?.categoryBitMask = scoreCategory
+        scoreNode.physicsBody?.contactTestBitMask = pipeCategory
+        scoreNode.name = "score"
+        scoreNode.position = CGPoint.zero
+        return scoreNode
     }()
     
     override func didMove(to view: SKView) {
@@ -45,23 +64,34 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         image.physicsBody?.categoryBitMask = birdCategory
         image.physicsBody?.contactTestBitMask = pipeCategory
         image.position = CGPoint(x: 0, y: 0)
-        
+
         addChild(image)
+        addChild(scoreNode)
+        
+        scoreLabel.position = CGPoint(x: 50, y: self.size.height-80)
+        scoreLabel.zPosition = 0.9
+        addChild(scoreLabel)
         
         //初始化
         initializeGame()
         
+        //水管进入
+        //startCreateRandomPipesAction()
+        
         positionCallBack = {
             point in
-            if self.isGameOver == true {
+            if self.gameStatus == .over {
                 return
             }
             self.image.position = CGPoint(x: point.x-60, y: point.y)
+            self.scoreNode.position = CGPoint(x: self.image.position.x, y: self.size.height-50)
         }
     }
     
     //MARK:游戏初始化
     func initializeGame() {
+        //计分重置
+        scoreCaculate(num: 0)
         //修改状态
         gameStatus = .initialize
         //移除水管
@@ -74,6 +104,8 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     func startGame() {
         //游戏开始
         gameStatus = .running
+        //水管移动
+        moveAction()
         //水管进入
         startCreateRandomPipesAction()
         //图片动力学属性添加
@@ -82,19 +114,30 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     
     //MARK:游戏结束
     func gameOver() {
+        
+        //修改状态
+        self.gameStatus = .over
         //图片动力学属性消失
         image.physicsBody?.isDynamic = false
         //停止添加水管
         stopCreateRandomPipesAcion()
         //添加gameOverLabel标签到场景里
         gameOverLabel.position = CGPoint(x: self.size.width * 0.5, y: self.size.height)
-        addChild(gameOverLabel)
         insertChild(gameOverLabel, at: 0)
+        gameOverLabel.zPosition = 0.8
+        gameOverLabel.text = "游戏结束\n得分:\(self.score)\n点击重新开始"
+        gameOverLabel.numberOfLines = 0
         //让gameoverLabel通过一个动画action移动到屏幕中间
         gameOverLabel.run(SKAction.move(by: CGVector(dx: 0, dy: -self.size.height * 0.5), duration: 0.5)) { [weak self] in
             //动画结束才重新允许用户点击屏幕
             self?.isUserInteractionEnabled = true
         }
+    }
+    
+    //MARK:积分计算
+    func scoreCaculate(num:Int) {
+        self.score = num
+        self.scoreLabel.text = "\(num)"
     }
     
     //移除场景中的所有水管
@@ -107,21 +150,18 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     
     //MARK:点击开始
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        switch gameStatus {
-//        case .initialize:      //初始化状态下，点击屏幕开始游戏
-//            startGame()
-//        case .running:
-//            break              //游戏进行中，点击屏幕无响应
-//        default:
-//            initializeGame()   //游戏结束状态下，
-//        }
-        
-        startGame()
-        
+        switch gameStatus {
+        case .initialize:      //初始化状态下，点击屏幕开始游戏
+            startGame()
+        case .running:
+            break              //游戏进行中，点击屏幕无响应
+        default:
+            initializeGame()   //游戏结束状态下，
+        }
     }
     
-    //MARK:floor移动
-    func move() {
+    //MARK:水管移动
+    func moveAction() {
         let moveAct = SKAction.wait(forDuration: 0.01)
         let generateAct = SKAction.run {
             self.moveScene()
@@ -129,7 +169,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         run(SKAction.repeatForever(SKAction.sequence([moveAct,generateAct])), withKey: "move")
     }
     
-    //MARK:水管移动
+    //MARK:移动和移除
     func moveScene() {
         //make pipe move
         for pipeNode in self.children where pipeNode.name == "pipe" {
@@ -147,8 +187,8 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     
     //MARK:开始重复创建水管
     func startCreateRandomPipesAction() {
-        //创建一个等待的action，等待时间的平均值为3.5秒，变化范围为1秒
-        let waitAct = SKAction.wait(forDuration: 3.5, withRange: 1.0)
+        //创建一个等待的action，等待时间的平均值为秒，变化范围为1秒
+        let waitAct = SKAction.wait(forDuration: 1.5)
         //创建一个产生随机水管的action，这个action实际上就是我们下面新添加的那个createRandomPipes()方法
         let generatePipeAct = SKAction.run {
             self.createRandomPipes()
@@ -215,7 +255,12 @@ class Scene: SKScene,SKPhysicsContactDelegate {
             bodyB = contact.bodyA
         }
         if (contact.bodyA.categoryBitMask == birdCategory && contact.bodyB.categoryBitMask == pipeCategory) {
+            //潜水艇碰柱子，游戏结束
             gameOver()
+        } else if (contact.bodyA.categoryBitMask == scoreCategory && contact.bodyB.categoryBitMask == pipeCategory) {
+            //检测到过柱子，积分+1
+            score+=1
+            self.scoreCaculate(num: score)
         }
         
     }
