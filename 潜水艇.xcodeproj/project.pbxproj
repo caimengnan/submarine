@@ -8,24 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		BB0C4BC12437383A005718A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C4BC02437383A005718A9 /* AppDelegate.swift */; };
-		BB0C4BC32437383A005718A9 /* Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BC22437383A005718A9 /* Scene.sks */; };
 		BB0C4BC52437383A005718A9 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C4BC42437383A005718A9 /* Scene.swift */; };
 		BB0C4BC72437383A005718A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C4BC62437383A005718A9 /* ViewController.swift */; };
 		BB0C4BCA2437383A005718A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BC82437383A005718A9 /* Main.storyboard */; };
 		BB0C4BCC2437383C005718A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BCB2437383C005718A9 /* Assets.xcassets */; };
 		BB0C4BCF2437383C005718A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BCD2437383C005718A9 /* LaunchScreen.storyboard */; };
+		BB73246F2446FE290049102D /* Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BB73246E2446FE290049102D /* Scene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BB0C4BBD2437383A005718A9 /* 潜水艇.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "潜水艇.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB0C4BC02437383A005718A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BB0C4BC22437383A005718A9 /* Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Scene.sks; sourceTree = "<group>"; };
 		BB0C4BC42437383A005718A9 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		BB0C4BC62437383A005718A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BB0C4BC92437383A005718A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB0C4BCB2437383C005718A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB0C4BCE2437383C005718A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB0C4BD02437383C005718A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB73246E2446FE290049102D /* Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Scene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				BB0C4BC02437383A005718A9 /* AppDelegate.swift */,
-				BB0C4BC22437383A005718A9 /* Scene.sks */,
+				BB73246E2446FE290049102D /* Scene.sks */,
 				BB0C4BC42437383A005718A9 /* Scene.swift */,
 				BB0C4BC62437383A005718A9 /* ViewController.swift */,
 				BB0C4BC82437383A005718A9 /* Main.storyboard */,
@@ -128,9 +128,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB0C4BC32437383A005718A9 /* Scene.sks in Resources */,
 				BB0C4BCF2437383C005718A9 /* LaunchScreen.storyboard in Resources */,
 				BB0C4BCC2437383C005718A9 /* Assets.xcassets in Resources */,
+				BB73246F2446FE290049102D /* Scene.sks in Resources */,
 				BB0C4BCA2437383A005718A9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,8 +289,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TCQ6669N52;
+				DEVELOPMENT_TEAM = 5PJ75W57T7;
 				INFOPLIST_FILE = "潜水艇/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,8 +308,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TCQ6669N52;
+				DEVELOPMENT_TEAM = 5PJ75W57T7;
 				INFOPLIST_FILE = "潜水艇/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
