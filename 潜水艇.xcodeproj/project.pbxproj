@@ -14,6 +14,11 @@
 		BB0C4BCC2437383C005718A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BCB2437383C005718A9 /* Assets.xcassets */; };
 		BB0C4BCF2437383C005718A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB0C4BCD2437383C005718A9 /* LaunchScreen.storyboard */; };
 		BB73246F2446FE290049102D /* Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BB73246E2446FE290049102D /* Scene.sks */; };
+		BB732471244D92AD0049102D /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB732470244D92AD0049102D /* Music.swift */; };
+		BB732474244D94770049102D /* circus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB732473244D94770049102D /* circus.mp3 */; };
+		BB732476244D94990049102D /* gameover.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB732475244D94990049102D /* gameover.mp3 */; };
+		BB732478244D94B40049102D /* turnover.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB732477244D94B40049102D /* turnover.mp3 */; };
+		BB73247A244D954B0049102D /* turnover2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB732479244D954B0049102D /* turnover2.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		BB0C4BCE2437383C005718A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB0C4BD02437383C005718A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB73246E2446FE290049102D /* Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Scene.sks; sourceTree = "<group>"; };
+		BB732470244D92AD0049102D /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
+		BB732473244D94770049102D /* circus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = circus.mp3; sourceTree = "<group>"; };
+		BB732475244D94990049102D /* gameover.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameover.mp3; sourceTree = "<group>"; };
+		BB732477244D94B40049102D /* turnover.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = turnover.mp3; sourceTree = "<group>"; };
+		BB732479244D954B0049102D /* turnover2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = turnover2.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +52,7 @@
 		BB0C4BB42437383A005718A9 = {
 			isa = PBXGroup;
 			children = (
+				BB732472244D943F0049102D /* resources */,
 				BB0C4BBF2437383A005718A9 /* 潜水艇 */,
 				BB0C4BBE2437383A005718A9 /* Products */,
 			);
@@ -61,6 +72,7 @@
 				BB0C4BC02437383A005718A9 /* AppDelegate.swift */,
 				BB73246E2446FE290049102D /* Scene.sks */,
 				BB0C4BC42437383A005718A9 /* Scene.swift */,
+				BB732470244D92AD0049102D /* Music.swift */,
 				BB0C4BC62437383A005718A9 /* ViewController.swift */,
 				BB0C4BC82437383A005718A9 /* Main.storyboard */,
 				BB0C4BCB2437383C005718A9 /* Assets.xcassets */,
@@ -68,6 +80,17 @@
 				BB0C4BD02437383C005718A9 /* Info.plist */,
 			);
 			path = "潜水艇";
+			sourceTree = "<group>";
+		};
+		BB732472244D943F0049102D /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				BB732479244D954B0049102D /* turnover2.mp3 */,
+				BB732477244D94B40049102D /* turnover.mp3 */,
+				BB732475244D94990049102D /* gameover.mp3 */,
+				BB732473244D94770049102D /* circus.mp3 */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,8 +153,12 @@
 			files = (
 				BB0C4BCF2437383C005718A9 /* LaunchScreen.storyboard in Resources */,
 				BB0C4BCC2437383C005718A9 /* Assets.xcassets in Resources */,
+				BB73247A244D954B0049102D /* turnover2.mp3 in Resources */,
+				BB732476244D94990049102D /* gameover.mp3 in Resources */,
+				BB732474244D94770049102D /* circus.mp3 in Resources */,
 				BB73246F2446FE290049102D /* Scene.sks in Resources */,
 				BB0C4BCA2437383A005718A9 /* Main.storyboard in Resources */,
+				BB732478244D94B40049102D /* turnover.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +172,7 @@
 				BB0C4BC72437383A005718A9 /* ViewController.swift in Sources */,
 				BB0C4BC52437383A005718A9 /* Scene.swift in Sources */,
 				BB0C4BC12437383A005718A9 /* AppDelegate.swift in Sources */,
+				BB732471244D92AD0049102D /* Music.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

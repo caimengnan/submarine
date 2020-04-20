@@ -8,6 +8,7 @@
 
 import SpriteKit
 import ARKit
+import AVFoundation
 
 let pipeCategory:UInt32 = 1
 let birdCategory:UInt32 = 0
@@ -21,6 +22,9 @@ enum GameStatus {
 
 class Scene: SKScene,SKPhysicsContactDelegate {
     
+    var playerItem: AVPlayerItem?
+    var player: AVPlayer?
+    
     var positionCallBack:((_ point:CGPoint)->())?
     var score:Int = 0
     var image:SKSpriteNode!
@@ -28,15 +32,16 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     var gameStatus:GameStatus = .initialize
     //游戏结束标签
     lazy var gameOverLabel:SKLabelNode = {
-        let label = SKLabelNode(fontNamed: "Zapfino")
+        let label = SKLabelNode(fontNamed: "AmericanTypewriter")
         label.text = "游戏结束"
+        label.fontColor = .red
         return label
     }()
     //计分标签
     lazy var scoreLabel:SKLabelNode = {
-        let scoreLabel = SKLabelNode(fontNamed: "AppleGothic")
+        let scoreLabel = SKLabelNode(fontNamed: "DBLCDTempBlack")
         scoreLabel.text = "0"
-        scoreLabel.fontColor = .red
+        scoreLabel.fontColor = .yellow
         return scoreLabel
     }()
     
@@ -68,15 +73,12 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         addChild(image)
         addChild(scoreNode)
         
-        scoreLabel.position = CGPoint(x: 50, y: self.size.height-80)
+        scoreLabel.position = CGPoint(x: self.size.width*0.5, y: self.size.height-80)
         scoreLabel.zPosition = 0.9
         addChild(scoreLabel)
         
         //初始化
         initializeGame()
-        
-        //水管进入
-        //startCreateRandomPipesAction()
         
         positionCallBack = {
             point in
@@ -100,6 +102,20 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         image.physicsBody?.isDynamic = false
     }
     
+    //MARK:播放背景音乐
+    func playBGM() {
+        let path = Bundle.main.path(forResource: "circus.mp3", ofType: nil)
+        let sourceUrl = URL(fileURLWithPath: path!)
+        playerItem = AVPlayerItem(url: sourceUrl)
+        player = AVPlayer(playerItem: playerItem)
+        player?.play()
+    }
+    
+    //MARK:关闭背景音乐
+    func stopBGM() {
+        player?.pause()
+    }
+    
     //MARK:游戏开始
     func startGame() {
         //游戏开始
@@ -110,11 +126,14 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         startCreateRandomPipesAction()
         //图片动力学属性添加
         image.physicsBody?.isDynamic = true
+        //开始背景乐
+        playBGM()
     }
     
     //MARK:游戏结束
     func gameOver() {
-        
+        //关闭背景乐
+        stopBGM()
         //修改状态
         self.gameStatus = .over
         //图片动力学属性消失
@@ -257,10 +276,13 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask == birdCategory && contact.bodyB.categoryBitMask == pipeCategory) {
             //潜水艇碰柱子，游戏结束
             gameOver()
+            MusicControl.shared.gameOver()
+            
         } else if (contact.bodyA.categoryBitMask == scoreCategory && contact.bodyB.categoryBitMask == pipeCategory) {
             //检测到过柱子，积分+1
             score+=1
             self.scoreCaculate(num: score)
+            MusicControl.shared.turnOver()
         }
         
     }
