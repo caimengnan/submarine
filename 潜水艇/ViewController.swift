@@ -9,7 +9,6 @@
 import UIKit
 import SpriteKit
 import ARKit
-import GameplayKit
 
 class ViewController: UIViewController, ARSKViewDelegate,ARSessionDelegate,SKPhysicsContactDelegate {
     
@@ -23,37 +22,29 @@ class ViewController: UIViewController, ARSKViewDelegate,ARSessionDelegate,SKPhy
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set the view's delegate
         sceneView.delegate = self
         sceneView.showsPhysics = true
         sceneView.scene?.physicsWorld.contactDelegate = self
-        // Show statistics such as fps and node count
+        
         sceneView.showsFPS = true
         sceneView.showsNodeCount = true
         
+        //检测手机能不能用人脸追踪功能
         guard ARFaceTrackingConfiguration.isSupported else {
             fatalError("Face tracking is not supported on this device")
         }
-        
-        // Load the SKScene from 'Scene.sks'
-//        if let scene = SKScene(fileNamed: "Scene.sks") {
-//            sceneView.presentScene(scene)
-//        }
         
         if let view = self.view as! SKView? {
             //通过代码创建一个GameScene类的实例对象
             scene.size = view.bounds.size
             sceneView.presentScene(scene)
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
         let configuration = ARFaceTrackingConfiguration()
-        //configuration.planeDetection = .horizontal
         sceneView.session.delegate = self
         sceneView.session.run(configuration)
     }
@@ -68,9 +59,6 @@ class ViewController: UIViewController, ARSKViewDelegate,ARSessionDelegate,SKPhy
         let image = SKSpriteNode(imageNamed: "速抠图")
         image.size = CGSize(width: 20, height: 20)
         image.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "速抠图"), size: CGSize(width: 20, height: 20))
-        image.physicsBody?.isDynamic = false
-        image.physicsBody?.categoryBitMask = 3
-        image.physicsBody?.contactTestBitMask = 2
         image.position = CGPoint(x: -60, y: 0)
         //node.addChild(image)
     }
@@ -80,15 +68,7 @@ class ViewController: UIViewController, ARSKViewDelegate,ARSessionDelegate,SKPhy
         print("产生碰撞")
     }
     
-    
-    func view(_ view: ARSKView, willUpdate node: SKNode, for anchor: ARAnchor) {
-        //print(node.position)
-        
-    }
-    
     func view(_ view: ARSKView, didUpdate node: SKNode, for anchor: ARAnchor) {
-        //print(node.position)
-        //node.position = CGPoint(x: node.position.x, y: node.position.y*1.5)
         scene.positionCallBack?(node.position)
     }
     

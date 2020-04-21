@@ -11,7 +11,7 @@ import ARKit
 import AVFoundation
 
 let pipeCategory:UInt32 = 1
-let birdCategory:UInt32 = 0
+let imageCategory:UInt32 = 0
 let scoreCategory:UInt32 = 2
 
 enum GameStatus {
@@ -27,7 +27,9 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     
     var positionCallBack:((_ point:CGPoint)->())?
     var score:Int = 0
+    
     var image:SKSpriteNode!
+    
     //游戏状态的变量
     var gameStatus:GameStatus = .initialize
     //游戏结束标签
@@ -37,6 +39,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         label.fontColor = .red
         return label
     }()
+    
     //计分标签
     lazy var scoreLabel:SKLabelNode = {
         let scoreLabel = SKLabelNode(fontNamed: "DBLCDTempBlack")
@@ -66,7 +69,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         image.physicsBody = SKPhysicsBody(rectangleOf:image.size)
         image.physicsBody?.affectedByGravity = false
         
-        image.physicsBody?.categoryBitMask = birdCategory
+        image.physicsBody?.categoryBitMask = imageCategory
         image.physicsBody?.contactTestBitMask = pipeCategory
         image.position = CGPoint(x: 0, y: 0)
 
@@ -194,7 +197,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         for pipeNode in self.children where pipeNode.name == "pipe" {
             //因为我们要用到水管的size，但是SKNode没有size属性，所以我们要把它转成SKSpriteNode
             if let pipeSprite = pipeNode as? SKSpriteNode {
-                //将水管左移1
+                //将水管左移2
                 pipeSprite.position = CGPoint(x: pipeSprite.position.x - 2, y: pipeSprite.position.y)
                 //检查水管是否完全超出屏幕左侧了，如果是则将它从场景里移除掉
                 if pipeSprite.position.x < -pipeSprite.size.width * 0.5 {
@@ -241,7 +244,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         topPipe.physicsBody?.isDynamic = false
         topPipe.physicsBody?.affectedByGravity = false
         topPipe.physicsBody?.categoryBitMask = pipeCategory
-        topPipe.physicsBody?.contactTestBitMask = birdCategory
+        topPipe.physicsBody?.contactTestBitMask = imageCategory
         //创建下水管
         let bottomTexture = SKTexture(imageNamed: "bottomPipe")
         let bottomPipe = SKSpriteNode(texture: bottomTexture, size: bottomSize)
@@ -251,7 +254,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
         bottomPipe.physicsBody?.isDynamic = false
         bottomPipe.physicsBody?.affectedByGravity = false
         bottomPipe.physicsBody?.categoryBitMask = pipeCategory
-        bottomPipe.physicsBody?.contactTestBitMask = birdCategory
+        bottomPipe.physicsBody?.contactTestBitMask = imageCategory
         
         //将上下水管天骄到场景中
         addChild(topPipe)
@@ -274,7 +277,7 @@ class Scene: SKScene,SKPhysicsContactDelegate {
             bodyA = contact.bodyB
             bodyB = contact.bodyA
         }
-        if (contact.bodyA.categoryBitMask == birdCategory && contact.bodyB.categoryBitMask == pipeCategory) {
+        if (contact.bodyA.categoryBitMask == imageCategory && contact.bodyB.categoryBitMask == pipeCategory) {
             //潜水艇碰柱子，游戏结束
             gameOver()
             MusicControl.shared.gameOver()
