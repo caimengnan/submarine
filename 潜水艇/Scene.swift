@@ -230,7 +230,8 @@ class Scene: SKScene,SKPhysicsContactDelegate {
     //MARK:添加水管到场景里
     func addPipes(topSize:CGSize,bottomSize:CGSize) {
         //创建上水管
-        let topTextture = SKTexture(imageNamed: "topPipe")
+        guard let image = UIImage(named: "topPipe") else { return }
+        let topTextture = SKTexture(image: image)
         //利用上水管图片创建一个上水管纹理对象
         let topPipe = SKSpriteNode(texture: topTextture, size: topSize)
         //利用上水管纹理对象和传入的上水管大小参数创建一个上水管对象

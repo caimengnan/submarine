@@ -88,7 +88,7 @@ class ViewController: UIViewController, ARSKViewDelegate,ARSessionDelegate,SKPhy
     
     func view(_ view: ARSKView, didUpdate node: SKNode, for anchor: ARAnchor) {
         //print(node.position)
-        //node.position = CGPoint(x: node.position.x, y: node.position.y*2.5)
+        //node.position = CGPoint(x: node.position.x, y: node.position.y*1.5)
         scene.positionCallBack?(node.position)
     }
     
